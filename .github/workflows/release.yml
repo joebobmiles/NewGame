@@ -76,7 +76,7 @@ jobs:
       uses: actions/download-artifact@v2
       id: love_download
       with:
-        name: love-build
+        name: love_build
 
     - name: Upload .love bundle to release.
       uses: actions/upload-release-asset@v1
