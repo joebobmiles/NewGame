@@ -70,7 +70,7 @@ jobs:
         draft: ${{ env.DRAFT }}
         prerelease: ${{ env.PRERELEASE }}
 
-    - name: Download .love bundle.
+    - name: Download build files.
       uses: actions/download-artifact@v2
       id: download
       with:
@@ -84,4 +84,34 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ${{ steps.download.outputs.download-path }}/love_build/${{ env.GAME_NAME }}.love
         asset_name: ${{ env.GAME_NAME }}.love
+        asset_content_type: application/zip
+
+    - name: Upload Win32 binary to release.
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ${{ steps.download.outputs.download-path }}/win32_build/${{ env.GAME_NAME }}_win32.zip
+        asset_name: ${{ env.GAME_NAME }}_win32.zip
+        asset_content_type: application/zip
+
+    - name: Upload Win64 binary to release.
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ${{ steps.download.outputs.download-path }}/win64_build/${{ env.GAME_NAME }}_win64.zip
+        asset_name: ${{ env.GAME_NAME }}_win64.zip
+        asset_content_type: application/zip
+
+    - name: Upload MacOS binary to release.
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ${{ steps.download.outputs.download-path }}/macos_build/${{ env.GAME_NAME }}_macos.zip
+        asset_name: ${{ env.GAME_NAME }}_macos.zip
         asset_content_type: application/zip
