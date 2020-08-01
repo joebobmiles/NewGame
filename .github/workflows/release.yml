@@ -123,9 +123,6 @@ jobs:
     steps:
     - name: Download build files.
       uses: actions/download-artifact@v2
-      id: download
-      with:
-        path: /tmp
 
     - name: Upload .love bundle.
       uses: josephbmanley/butler-publish-itchio-action@master
@@ -134,5 +131,5 @@ jobs:
         CHANNEL: win-mac-linux
         ITCH_GAME: pong
         ITCH_USER: joebobmiles
-        PACKAGE: ${{ steps.download.outputs.download-path }}/love_build
+        PACKAGE: love_build
         VERSION: ${{ github.ref }}
