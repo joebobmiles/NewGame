@@ -128,8 +128,38 @@ jobs:
       uses: josephbmanley/butler-publish-itchio-action@master
       env:
         BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
-        CHANNEL: win-mac-linux
+        CHANNEL: win-macos-linux
         ITCH_GAME: pong
         ITCH_USER: joebobmiles
         PACKAGE: love_build
+        VERSION: ${{ github.ref }}
+
+    - name: Upload Win32 binary.
+      uses: josephbmanley/butler-publish-itchio-action@master
+      env:
+        BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+        CHANNEL: win32
+        ITCH_GAME: pong
+        ITCH_USER: joebobmiles
+        PACKAGE: win32_build
+        VERSION: ${{ github.ref }}
+
+    - name: Upload Win64 binary.
+      uses: josephbmanley/butler-publish-itchio-action@master
+      env:
+        BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+        CHANNEL: win64
+        ITCH_GAME: pong
+        ITCH_USER: joebobmiles
+        PACKAGE: win64_build
+        VERSION: ${{ github.ref }}
+
+    - name: Upload MacOS binary.
+      uses: josephbmanley/butler-publish-itchio-action@master
+      env:
+        BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+        CHANNEL: macos
+        ITCH_GAME: pong
+        ITCH_USER: joebobmiles
+        PACKAGE: macos_build
         VERSION: ${{ github.ref }}
