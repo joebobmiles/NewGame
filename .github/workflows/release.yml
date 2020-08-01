@@ -26,7 +26,7 @@ jobs:
       id: love_build
       with:
         app_name: ${{ env.GAME_NAME }}
-        love_version: ${{ env.LOVE_VERISON }}
+        love_version: ${{ env.LOVE_VERSION }}
 
     - name: Upload .love bundle.
       uses: actions/upload-artifact@v2
