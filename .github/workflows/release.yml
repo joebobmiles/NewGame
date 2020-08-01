@@ -121,7 +121,6 @@ jobs:
 
     env:
       BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
-      ITCH_GAME: ${{ env.GAME_NAME }}
       ITCH_USER: joebobmiles
       VERSION: ${{ github.ref }}
 
@@ -132,23 +131,27 @@ jobs:
     - name: Upload .love bundle.
       uses: josephbmanley/butler-publish-itchio-action@master
       env:
+        ITCH_GAME: ${{ env.GAME_NAME }}
         CHANNEL: win-macos-linux
         PACKAGE: love_build
 
     - name: Upload Win32 binary.
       uses: josephbmanley/butler-publish-itchio-action@master
       env:
+        ITCH_GAME: ${{ env.GAME_NAME }}
         CHANNEL: win32
         PACKAGE: win32_build
 
     - name: Upload Win64 binary.
       uses: josephbmanley/butler-publish-itchio-action@master
       env:
+        ITCH_GAME: ${{ env.GAME_NAME }}
         CHANNEL: win64
         PACKAGE: win64_build
 
     - name: Upload MacOS binary.
       uses: josephbmanley/butler-publish-itchio-action@master
       env:
+        ITCH_GAME: ${{ env.GAME_NAME }}
         CHANNEL: macos
         PACKAGE: macos_build
