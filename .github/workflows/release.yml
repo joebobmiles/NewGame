@@ -120,6 +120,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
 
+    if: ${{ secrets.BUTLER_CREDENTIALS }}
+
     steps:
     - name: Download build files.
       uses: actions/download-artifact@v2
