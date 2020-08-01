@@ -13,37 +13,74 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      GAME_NAME: pong
+      LOVE_VERSION: 11.3
+
     steps:
     - name: Checkout most recent version.
       uses: actions/checkout@v2
     
     - name: Build game.
       uses: nhartland/love-build@v1-beta2
-      id: love-build
+      id: love_build
       with:
-        app_name: pong
-        love_version: 11.3
+        app_name: ${{ env.GAME_NAME }}
+        love_version: ${{ env.LOVE_VERISON }}
 
     - name: Upload .love bundle.
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2
       with:
-        name: love-build
-        path: ${{ steps.love-build.outputs.love-filename }}
+        name: love_build
+        path: ${{ steps.love_build.outputs.love-filename }}
 
     - name: Upload Win32 binary.
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2
       with:
-        name: win32-build
-        path: ${{ steps.love-build.outputs.win32-filename }}
+        name: win32_build
+        path: ${{ steps.love_build.outputs.win32-filename }}
 
     - name: Upload Win64 binary.
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2
       with:
-        name: win64-build
-        path: ${{ steps.love-build.outputs.win64-filename }}
+        name: win64_build
+        path: ${{ steps.love_build.outputs.win64-filename }}
 
     - name: Upload MacOS binary.
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2
       with:
-        name: macos-build
-        path: ${{ steps.love-build.outputs.macos-filename }}
+        name: macos_build
+        path: ${{ steps.love_build.outputs.macos-filename }}
+
+  github:
+    runs-on: ubuntu-latest
+    needs: build
+
+    env:
+      DRAFT: true
+      PRERELEASE: true
+
+    steps:
+    - name: Create a new release.
+      uses: actions/create-release@v1
+      id: create_release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: ${{ env.DRAFT }}
+        prerelease: ${{ env.PRERELEASE }}
+
+    - name: Download .love bundle.
+      uses: actions/download-artifact@v2
+      id: love_download
+      with:
+        name: love-build
+
+    - name: Upload .love bundle to release.
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
