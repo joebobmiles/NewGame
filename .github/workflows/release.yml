@@ -58,7 +58,7 @@ jobs:
 
     env:
       DRAFT: true
-      PRERELEASE: true
+      PRERELEASE: ${{ contains(github.ref,'beta') || contains(github.ref,'alpha') }}
 
     steps:
     - name: Create a new release.
