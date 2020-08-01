@@ -4,8 +4,6 @@ name: release
 # Run when a version tag (i.e. v0, v1, etc...) is pushed to master.
 on:
   push:
-    branches:
-    - master
     tags:
     - v*
 
