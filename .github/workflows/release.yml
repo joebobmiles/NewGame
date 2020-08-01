@@ -82,6 +82,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ${{ steps.love_download.outputs.download-path }}/love_build.zip
-        asset_name: ${{ env.GAME_NAME }}.love
+        asset_path: ${{ env.GAME_NAME }}.love
+        asset_name: ${{ env.GAME_NAME }}.love!
         asset_content_type: application/zip
