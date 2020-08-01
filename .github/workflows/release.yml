@@ -1,0 +1,54 @@
+# This is my Itch.IO release workflow
+name: release
+
+# Run when a version tag (i.e. v0, v1, etc...) is pushed to master.
+on:
+  push:
+    branches:
+    - master
+    tags:
+    - v*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout most recent version.
+      uses: actions/checkout@v2
+    
+    - name: Build game.
+      uses: nhartland/love-build@v1-beta2
+      id: love-build
+      with:
+        app_name: pong
+        love_version: 11.3
+
+  github:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+    - name: Upload .love bundle.
+      uses: actions/upload-artifact@v1
+      with:
+        name: love-build
+        path: ${{ steps.love-build.outputs.love-filename }}
+
+    - name: Upload Win32 binary.
+      uses: actions/upload-artifact@v1
+      with:
+        name: win32-build
+        path: ${{ steps.love-build.outputs.win32-filename }}
+
+    - name: Upload Win64 binary.
+      uses: actions/upload-artifact@v1
+      with:
+        name: win64-build
+        path: ${{ steps.love-build.outputs.win64-filename }}
+
+    - name: Upload MacOS binary.
+      uses: actions/upload-artifact@v1
+      with:
+        name: macos-build
+        path: ${{ steps.love-build.outputs.macos-filename }}
